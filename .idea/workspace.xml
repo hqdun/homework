@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="557f8ea6-065b-47c4-baf9-4853ef7d9be5" name="Default" comment="" />
+    <list default="true" id="557f8ea6-065b-47c4-baf9-4853ef7d9be5" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/1b224ecac1.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/3351e85646.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/3600755f20.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/3a9e11c1c2.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/3f70398bc7.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/569b25ddfd.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/58e35fc77c.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/7ef8e3ba30.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/a008b2f76d.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/a6a66566fe.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/b15e30e9ff.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/c455d689ea.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/c6c49922cd.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/d8427a1250.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/e8b53bf233.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/e927e79a22.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/ebffdbe362.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/f8cc7ff633.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/faf8d3ec1f.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/document/ffcf724bf7.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/file/08ff541785.doc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/images/0179fd9193.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/images/09e056183f.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/images/19541946c1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/1/images/7100424bd1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/2/document/9e0c76fbb9.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/2/document/ec11eb51fb.zip" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,8 +103,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/homework/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-554">
-              <caret line="80" column="61" lean-forward="true" selection-start-line="80" selection-start-column="61" selection-end-line="80" selection-end-column="61" />
+            <state relative-caret-position="73">
+              <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
             </state>
           </provider>
         </entry>
@@ -228,7 +257,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641395697297</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="第一次提交">
+      <created>1641397378869</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1641397378869</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -241,15 +277,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32793522" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5013405" side_tool="true" visible="true" weight="0.25236169" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928476" />
-      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32793522" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49932975" weight="0.32928476" />
+      <window_info anchor="bottom" id="Python Console" order="7" sideWeight="0.49932975" weight="0.32793522" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.23315364" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.25236169" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.49865952" visible="true" weight="0.25236169" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12064343" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.28150135" />
@@ -692,8 +728,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/homework/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-554">
-          <caret line="80" column="61" lean-forward="true" selection-start-line="80" selection-start-column="61" selection-end-line="80" selection-end-column="61" />
+        <state relative-caret-position="73">
+          <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
         </state>
       </provider>
     </entry>
