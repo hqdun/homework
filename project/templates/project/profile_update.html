@@ -1,0 +1,80 @@
+{% extends "project/base.html" %}
+{% load static %}
+{% block content %}  
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>编辑资料</h5>
+                    </div>
+                    <div>
+                        <div class="ibox-content no-padding border-left-right">
+                            <img alt="image" class="img-responsive" src="{% static '/img/p_big2.jpg' %}">
+                        </div>
+                        <div class="ibox-content profile-content" align="center">
+                                <h2>修改个人信息</h2>
+                                <div class="form-wrapper">
+                                    <form method="post" action="" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% for field in form %}
+                                            <div class="fieldWrapper">
+                                        {{ field.errors }}
+                                        <div class="row">
+                                            <div class="col-sm-2"></div>
+                                            <div class="col-sm-2">{{ field.label_tag }} </div>
+                                            <div class="col-sm-5">{{ field }}</div>
+                                        </div>
+                                        {% if field.help_text %}
+                                            <p class="help">{{ field.help_text|safe }}</p>
+                                        {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                        <div >&nbsp;</div>
+                                        <div class="form-group">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-6">
+                                                <input type="submit" class="btn btn-block btn-primary compose-mail" value="提交">
+                                            </div>
+                                        </div>
+                                        <div >&nbsp;</div>
+                                    </form>
+                                </div>
+                            </p>
+                            <div class="row m-t-lg">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                </div>
+                            </div>
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        {% if user.is_authenticated %}
+                                        <a href="{% url 'project:pwd_change' user.id %}">
+                                            <button type="button" class="btn btn-default btn-sm btn-block"><span class="glyphicon glyphicon-wrench"> </span>  修改密码</button>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {% if user.is_authenticated %}
+                                        <a href="{% url 'project:logout' %}">
+                                            <button type="button" class="btn btn-primary btn-sm btn-block"><span class="glyphicon glyphicon-log-out" ></span>  退出登录</button>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</body>
+{% endblock %}

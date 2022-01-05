@@ -1,0 +1,36 @@
+{% extends "project/base.html" %}
+{% block content %}
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">&nbsp;</h1>
+
+            </div>
+            <h3>欢迎注册！ </h3>
+            <form class="m-t" method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+{#                    {{ field.errors }}#}
+                    <!--{{ field.label_tag }} forms.py 中的提示标签 label-->
+                    {{ field }}
+                    {% if field.errors %}
+                          <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                    {{ field.errors }}
+                           </div>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary block full-width m-b">注册</button>
+            </form>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "project/base.html" %}
+{% block content %}
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">&nbsp;</h1>
+
+            </div>
+            <h3>欢迎登录！</h3>
+
+            <form class="m-t" role="form" method="post" action="">
+                {% csrf_token %}
+                {% for field in form %}
+
+                    <!--{{ field.label_tag }} forms.py 中的提示标签 label-->
+                    {{ field }}
+                     {% if field.errors %}
+                          <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                    {{ field.errors }}
+                           </div>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+
+                {% endfor %}
+                {% if message %}
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                        {{ message }}
+                    </div>
+                {% endif %}
+{#                <div class="form-group">#}
+{#                    <input type="text" class="form-control" placeholder="用户名" required="" id="username" name="username">#}
+{#                </div>#}
+{#                <div class="form-group">#}
+{#                    <input type="password" class="form-control" placeholder="密码" required="" id="password" name="password">#}
+{#                </div>#}
+                <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
+
+
+                <p class="text-muted text-center"><a href="{% url 'project:register' %}">注册一个新的账户</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "project/base.html" %}
+{% block content %}
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+        <!--Left Navigation Start-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs" style="font-size:20px;">
+                                        <strong class="font-bold">作业管理系统</strong>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="logo-element">作业管理系统
+                        </div>
+                    </li>
+                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                        <span class="ng-scope">&nbsp;</span>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="#">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">主页</span>
+                        </a>
+                    </li>
+                    <li class="line dk"></li>
+                    <li>
+                        <a href="#"><i class="glyphicon glyphicon-user"></i> <span class="nav-label">个人资料</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="{% url 'project:profile' request.user.id %}">查看资料</a>
+                            </li>
+                            <li><a class="J_menuItem" href="{% url 'project:pwd_change' user.id %}">修改密码</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="line dk"></li>
+                    <li>
+                        <a href="#"><i class="glyphicon glyphicon-book"></i> <span class="nav-label">课程管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="{% url 'project:course_list' %}">全部课程</a>
+                            </li>
+                            <li><a class="J_menuItem" href="{% url 'project:course_list_self' request.user.id %}">我的课程</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--Left Navigation End-->
+        <!--Right Navigation Start-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-info " href="#"><i class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" method="get" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" placeholder="搜索通知标题或内容 …" class="form-control" name="q" id="q">
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        {% if request.user.is_authenticated %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle btn-green" data-toggle="dropdown" href="#">
+                                <span class="glyphicon glyphicon-user"></span> {{ request.user.username }} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="m-t-xs">
+                                    <a href="{% url 'project:logout' %}"><span class="glyphicon glyphicon-log-out" ></span>&nbsp;&nbsp;退出登录
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle btn-green" href="/register">
+                                <span class="glyphicon glyphicon-user"></span> 注册
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                        <!-- 硬编码路由 -->
+                            <a class="dropdown-toggle" href="/login" >
+                                <span class="glyphicon glyphicon-log-in"></span> 登录
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe id="J_iframe" width="100%" height="100%" seamless></iframe>
+            </div>
+        </div>
+        <!--Right Navigation End-->
+
+
+    </div>
+</body>
+{% endblock %}

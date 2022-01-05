@@ -1,0 +1,109 @@
+{% extends "project/base.html" %}
+{% block content %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content mailbox-content">
+                        <div class="file-manager">
+                            <div class="space-25"></div>
+                            <h4>作业信息：</h4>
+                            <ul class="folder-list m-b-md" style="padding: 0">
+                                <li>
+                                    <a href="#"> <span class="glyphicon glyphicon-book"></span> &nbsp;&nbsp;作业标题： {{ homework.title }} </a>
+                                </li>
+                            </ul>
+{#                            <p>{{ homework.course.id }}</p>#}
+{#                            <p>{{ homework.id }}</p>#}
+                              <a class="btn btn-block btn-primary compose-mail" href="{% url 'project:export_excel' homework.course.id homework.id%}" >导出数据</a>
+                            <a class="btn btn-block btn-primary compose-mail" href="{% url 'project:homework_list_published' homework.course.id %}" >返回课程</a>
+                            <div class="clearfix"></div>
+                            <div class="space-25"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 animated fadeInRight">
+                <div class="mail-box-header">
+                    <h2>作业统计 </h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                    </div>
+                </div>
+                <div class="mail-box">
+                    <table class="table table-hover table-mail">
+                        <tbody>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox-content">
+                                        已提交作业人数： {{ done }} / {{ total }}
+                                        <div class="progress progress-mini">
+                                            <div style="width: {% widthratio done total 100 %}%;" class="progress-bar"></div>
+                                        </div>
+                                        <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+                                            <tbody align="center">
+                                                <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>学号</th>
+                                                    <th>姓名</th>
+                                                    <th>提交日期</th>
+                                                    <th>查看</th>
+                                                    <th>附件格式</th>
+                                                    <th>附件</th>
+                                                    <th>
+                                                    {% if homework.group == 1 %}
+                                                        该小组提交学生
+                                                    {% endif %}
+                                                    </th>
+                                                    <th>分数</th>
+                                                </tr>
+                                                </thead>
+                                                {% for object in object_list %}
+                                                <tr>
+                                                    <td></td>
+                                                    <td>{{ object.author }}</td>
+                                                    <td>{{ object.author.name }}</td>
+                                                    <td>{{ object.modified | date:"Y-m-d" }}</td>
+                                                    <td>
+                                                         <a href="{% url 'project:handin_detail' object.homework.course.id object.homework.id object.id %}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    </td>
+                                                    <td>
+                                                        {% if object.file %}
+                                                            {{ object.get_format }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if object.file %}
+                                                            <a href="{{ object.file.url }}"><span class="glyphicon glyphicon-download"></span></a>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if homework.group == 1 %}
+                                                            {% if object.body or object.file %}
+                                                                <i class="fa fa-check text-navy"></i>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if object.score %}
+                                                            {{object.score}}
+                                                        {% else %}
+                                                            未打分
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

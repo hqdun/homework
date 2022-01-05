@@ -1,0 +1,205 @@
+{% extends "project/base.html" %}
+{% block content %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content mailbox-content">
+                        <div class="file-manager">
+                            <div class="space-25"></div>
+                            <h4>课程信息：</h4>
+                            <ul class="folder-list m-b-md" style="padding: 0">
+                                <li>
+                                    <a href="#"> <span class="glyphicon glyphicon-book"></span> &nbsp;&nbsp;课程名称： {{ course.cname }} </a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="glyphicon glyphicon-book"></span> &nbsp;&nbsp;班级： {{ course.classes }}</a>
+                                </li>
+                                <li>
+                                    <a href="#"> <span class="glyphicon glyphicon-user"></span> &nbsp;&nbsp;授课教师： {{ course.teacher.name }}</a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="glyphicon glyphicon-list-alt"></i>课程描述： {{ course.description }}</a>
+                                </li>
+                            </ul>
+                            {% if request.user.role.teacher == course.teacher %}
+                            <h2>课程作业</h2>
+                            <ul class="category-list" style="padding: 0">
+                                <li>
+                                    <a href="{% url 'project:homework_list_published' course.id %}"> <i class="fa fa-circle text-navy"></i> 已发布作业</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'project:homework_list_publishing' course.id %}"> <i class="fa fa-circle text-danger"></i> 待发布作业</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'project:homework_create' course.id %}"> <i class="fa fa-circle text-primary"></i> 添加作业</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'project:course_student' course.id %}"> <i class="fa fa-circle text-navy"></i> 所有学生</a>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            <div class="clearfix"></div>
+                            <div class="space-25"></div>
+ <a class="btn btn-block btn-primary compose-mail" href="{% url 'project:course_update' course.id %}">更新课程</a>
+                            <a class="btn btn-block btn-primary compose-mail" href="#" >删除课程</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 animated fadeInRight">
+                <div class="mail-box-header">
+                    <form method="get" action="#" class="pull-right mail-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm" name="search" placeholder="请输入搜索内容 ...">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    搜索
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <h2>所有学生 </h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                    </div>
+                </div>
+                <div class="mail-box">
+                    <table class="table table-hover table-mail">
+                        <tbody>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox-content">
+                                        <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+                                            <tbody align="center">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>成绩</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                             {% for student in student %}
+                                <tr class="test">
+                                    <td></td>
+                                    <td>{{ student.user.user.username }}</td>
+                                    <td>
+                                        {{ student.name }}
+                                    </td>
+                                    <td>
+                                        <li class="btn btn-white btn-sm" id="btn" value="{{student.user.user.username}}"><span class="glyphicon glyphicon-record"> 成绩图</span> </li>
+                                    </td>
+                                    <td></td>
+                             {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal fade" id="myModal" >
+        <div class="modal-dialog modal-sm" style="width:1000px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body" >
+                    <div class="echarts" id="line-chart"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal" id="close">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+var result;
+$('.test #btn').click(function(){
+    $('#myModal').modal();//点击按钮弹出模态框
+    value = $(this).attr('value');
+    // value = $(this).val();
+    console.log(value);
+    $.ajax({
+        url: "{% url 'project:get_score'%}",
+        type: 'GET',
+        async : true,
+        data: {'value':value,'course':{{ course.id }}},
+        success: function(data){
+            data = JSON.parse(data);
+            result = data;
+        },
+    });
+});
+$('#myModal').on('shown.bs.modal',function(){
+    console.log(result);
+    homework = result["homework"];
+    score = result["score"];
+    console.log(homework);
+    var lineChart = echarts.init(document.getElementById("line-chart"));
+    var lineoption = {
+        title : {
+            text: '学生成绩变化曲线'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['成绩',]
+        },
+        grid:{
+            x:40,
+            x2:40,
+            y2:24
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : true,
+                data :homework
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value',
+                axisLabel : {
+                    formatter: '{value} 分'
+                }
+            }
+        ],
+        series : [
+            {
+                name:'成绩',
+                type:'line',
+                data:score,
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                }
+            },
+        ]
+    };
+    lineChart.setOption(lineoption);
+    lineChart.resize();
+});
+</script>
+</body>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "project/base.html" %}
+{% load static %}
+{% block content %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>个人资料</h5>
+                    </div>
+                    <div>
+                        <div class="ibox-content no-padding border-left-right" align="center">
+                            <a class="" href="#" title="">
+                                <img alt="image" class="img-responsive" src="{% static '/img/p_big2.jpg' %}" >
+                            </a>
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <h4><strong>姓名：{{ user.role.student.name }}{{ user.role.teacher.name }}</strong></h4>
+                            <h4>用户名: {{ user.username }}</h4>
+                            <h4>Email: {{ user.email }} </h4>
+                            <p><i class="fa fa-map-marker"></i> 浙江省温州市</p>
+                            <h5>自我描述</h5>
+                            <p>
+                                {% if request.user.role.role == 1 %}
+                                {{ user.role.teacher.description }}
+                                   {% else %}
+                                 {{ user.role.student.description }}
+                                 {% endif %}
+                            </p>
+                            <p>
+                                <ul>
+                                    {% if request.user.role.role == 1 %}
+                                        {% if request.user.role.teacher.gender %}
+                                            <li>性别: 女 </li>
+                                        {% else %}
+                                            <li>性别: 男 </li>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if request.user.role.student.gender %}
+                                            <li>性别: 女 </li>
+                                        {% else %}
+                                            <li>性别: 男 </li>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if request.user.role.role == 1 %}
+                                        <li>用户类型：教师 </li>
+                                    {% else %}
+                                        <li>用户类型：学生 </li>
+                                    {% endif %}
+                                    {% if user.role.role == 1 %}
+                                    <li>职称: {{ user.role.teacher.ranks }} </li>
+                                    {% else %}
+                                    <li>班级: {{ user.role.student.classes }} </li>
+                                    {% endif %}
+                                </ul>
+                            </p>
+                            <div class="row m-t-lg">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                </div>
+                            </div>
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        {% if user.is_authenticated %}
+                                        <a href="{% url 'project:profile_update' user.id %}">
+                                            <button type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope"></i> 编辑信息</button>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {% if user.is_authenticated %}
+                                        <a href="{% url 'project:pwd_change' user.id %}">
+                                            <button type="button" class="btn btn-default btn-sm btn-block"><span class="glyphicon glyphicon-wrench"> </span> 修改密码</button>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "project/base.html" %}
+{% block content %}
+{% if course %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <div class="mail-box-header">
+                    <div class="pull-right tooltip-demo">
+                        {% if request.user.role.role == 0 %}
+                            <a href="{% url 'project:homework_list' course.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="返回课程"><i class="fa fa-reply"></i>&nbsp;&nbsp;&nbsp;&nbsp;返回课程</a>
+                        {% endif %}
+                        {% if request.user.role.role == 1 %}
+                            <a href="{% url 'project:homework_list_published' course.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="返回课程"><i class="fa fa-reply"></i>&nbsp;&nbsp;&nbsp;&nbsp;返回课程</a>
+                            {% if homework.status == "d" %}
+                                <a href="{% url 'project:homework_publish' course.id homework.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="发布"><span class="glyphicon glyphicon-open"> 发布</span> </a>
+                            {% endif %}
+                            <a href="{% url 'project:homework_update' course.id homework.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="编辑"><span class="glyphicon glyphicon-edit"> 编辑</span> </a>
+                            <a href="{% url 'project:homework_delete' course.id homework.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-trash-o"></i> &nbsp;&nbsp;删除</a>
+                        {% endif %}
+                    </div>
+                    <h2>查看作业</h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                        <h3>
+                        <span class="font-noraml">作业标题： </span>{{ homework.title }}
+                        </h3>
+                        <h5>
+                        <span class="pull-right font-noraml">发布于{{ homework.published | date:"Y-m-d" }}      浏览{{ homework.views }}次</span>
+                        <span class="font-noraml">出题人： </span>{{ homework.course.teacher.name }}
+                        </h5>
+                    </div>
+                </div>
+                <div class="mail-box">
+                    <div class="mail-body">
+                        <h4></h4>
+                        <p>
+                            {{ homework.body |safe}}
+                        </p>
+                        <p class="text-right">
+                        </p>
+                    </div>
+                    <div class="mail-attachment">
+                        {% if object.file %}
+                        <p>
+                            <span><i class="fa fa-paperclip"></i> &nbsp;&nbsp;&nbsp;&nbsp;附件 - (格式：{{ object.get_format }})</span>
+                            <a href="{{ object.file.url }}">-下载</a>
+                        </p>
+                        <div class="attachment">
+                            <div class="file-box">
+                                <div class="file">
+                                    <a href="{{ object.file.url }}">
+                                        <span class="corner"></span>
+                                        <div class="file-name">
+                                            {{ object.get_format }}
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mail-body text-right tooltip-demo">
+                        {% if request.user.role.role == 1 %}
+                            <a href="{% url 'project:homework_list_published' course.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="返回课程"><i class="fa fa-reply"></i>&nbsp;&nbsp;&nbsp;&nbsp;返回课程</a>
+                            {% if homework.status == "d" %}
+                                <a href="{% url 'project:homework_publish' course.id homework.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="发布"><span class="glyphicon glyphicon-open"> 发布</span> </a>
+                            {% endif %}
+                            <a href="{% url 'project:homework_update' course.id homework.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="编辑"><span class="glyphicon glyphicon-edit"> 编辑</span> </a>
+                            <a href="{% url 'project:homework_delete' course.id homework.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-trash-o"></i> &nbsp;&nbsp;删除</a>
+                        {% endif %}
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+<div class="row">
+<div class="col-sm-1" ></div>
+<div class="col-sm-10">
+    <form action="{% url 'project:homework_comment' homework.id %}" method="post">
+        <div class="form-group">
+        {% csrf_token %}
+        {{ form.media }}
+        {% for field in form %}
+            <div class="input-field" style="padding-top: 10px;">
+                {{ field.label }}：{{ field }}
+            </div>
+            <div class="error" style="color: red;">
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" class="btn btn-block btn-primary compose-mail" value="提交">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-1" ></div>
+<div class="col-sm-10">
+    <h2>评论列表，共 <span>{{ homework.comment.count }}</span> 条评论</h2>
+    {% for comment in comment_list %}
+    <div class="social-feed-box">
+        <div class="social-avatar">
+            <div class="media-body">
+                <i class="glyphicon glyphicon-user"></i> &nbsp;&nbsp; {{ comment.username }}  &nbsp;&nbsp; 
+                <small class="text-muted">{{ comment.created }}</small>
+            </div>
+        </div>
+        <div class="social-body">
+            <p>
+                {{ comment.text }}
+            </p>
+        </div>
+    </div>
+    {% empty %}
+    <h2>暂无评论</h2>
+    {% endfor %}
+</div>
+</div>
+    </div>
+</body>
+{% endif %}
+{% endblock %}

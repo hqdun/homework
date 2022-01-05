@@ -1,0 +1,100 @@
+{% extends "project/base.html" %}
+{% block content %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <div class="mail-box-header">
+                    <div class="pull-right tooltip-demo">
+                        {% if handin.author == request.user.role.student %}
+                            <a href="{% url 'project:homework_list' homework.course.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="返回课程"><i class="fa fa-reply"></i> &nbsp;&nbsp;&nbsp;&nbsp;返回课程</a>
+                            <a href="{% url 'project:handin_update' homework.course.id homework.id handin.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="编辑"><span class="glyphicon glyphicon-edit"> 编辑</span> </a>
+                        {% else %}
+                            <a href="" class="btn btn-white btn-sm" data-toggle="modal" data-placement="top" data-target="#myModal6" title="打分" id="del"><span class="glyphicon glyphicon-record"> 打分</span> </a>
+                            <a href="{% url 'project:homework_handin_count' homework.course.id homework.id %}" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="返回"><span class="fa fa-reply"> 返回</span> </a>
+                        {% endif %}
+                    </div>
+                    <h2>查看作业
+                    </h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                        <h3><span class="font-noraml">作业标题： </span>{{ handin.homework.title }}</h3>
+                    <h5>
+                        <span class="pull-right font-noraml">{{ handin.modified }}</span>
+                        <span class="font-noraml">所属课程： </span>{{ handin.homework.course}}
+                    </h5>
+                    </div>
+                </div>
+                <div class="mail-box">
+                    <div class="mail-body">
+                        <p>{{ handin.body | safe}}</p>
+                        <div class="mail-attachment">
+                        {% if object.file %}
+                        <p>
+                            <span><i class="fa fa-paperclip"></i> &nbsp;&nbsp;&nbsp;&nbsp;附件 - (格式：{{ object.get_format }})</span>
+                            <a href="{{ object.file.url }}">-下载</a>
+                        </p>
+                        <div class="attachment">
+                            <div class="file-box">
+                                <div class="file">
+                                    <a href="{{ object.file.url }}">
+                                        <span class="corner"></span>
+                                        <div class="file-name">
+                                            {{ object.get_format }}
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        {% endif %}
+                        </div>
+                        <div class="clearfix"></div>
+                        <h3>
+                            <span class="font-noraml">分数： </span>
+                            {% if handin.score %}
+                                {{handin.score}}
+                            {% else %}
+                                未打分
+                            {% endif %}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                    <p><input placeholder="请输入分数" class="form-control" id="score"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal" id="close">关闭</button>
+                    <button type="button" class="btn btn-primary" id="score_button">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+$('#score_button').click(function () {
+    let value = $('#score').val();
+    $.ajax({
+        // 设置提交的url
+        url: "{% url 'project:score' handin.id %}",
+        // 设置提交的方法是POST
+        type: 'POST',
+        // 要传递的值
+        data: {'value':value,csrfmiddlewaretoken:'{{ csrf_token }}'},
+        // 提交成功，调用方法，返回json数据
+        success: function(data){
+            $('#close')[0].click();
+            window.location.reload();
+        },
+    });
+});
+</script>
+</body>
+{% endblock %}

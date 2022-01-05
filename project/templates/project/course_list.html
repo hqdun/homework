@@ -1,0 +1,33 @@
+{% extends "project/base.html" %}
+{% load static %}
+{% block content %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            {% for object in object_list %}
+            <div class="col-sm-4">
+                <div class="contact-box">
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <img alt="image" class="img-circle m-t-xs img-responsive" src="{% static 'img/python.jpg' %}">
+                            <div class="m-t-xs font-bold"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <h3><strong>{{ object.cname }}</strong></h3>
+                        <p><i class="glyphicon glyphicon-book"></i> 班级： {{ object.classes }}</p>
+                        <p><i class="glyphicon glyphicon-user"></i> 授课教师：{{ object.teacher }}</p>
+                        <address>
+                        </address>
+                        <a class="J_menuItem" href="{% url 'project:course_detail' object.id %}">
+                        <button class="btn btn-w-m btn-primary">课程信息</button>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+{% endblock %}

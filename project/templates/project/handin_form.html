@@ -1,0 +1,46 @@
+{% extends "project/base.html" %}
+{% block content %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>提交作业 </h5>
+                    </div>
+                    <div class="ibox-content">
+<!-- 不要忘记 enctype="multipart/form-data" 否则文件或图片无法上传成功-->
+<form method="POST" class="form-horizontal" role="form" action="" enctype="multipart/form-data">
+    <div class="form-group">
+        {% csrf_token %}
+            <div class="col-sm-12">
+            <!-- 调入ckeditor静态文件（js,css和图片） -->
+            {{ form.media }}
+            {{ form }}
+            </div>
+            {% for hidden_field in form.hidden_fields %}
+            <div>  {{ hidden_field }} </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger col-md-12" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
+    </div>
+    <div class="form-group">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <input type="submit" class="btn btn-block btn-primary compose-mail" value="提交">
+        </div>
+    </div>
+</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

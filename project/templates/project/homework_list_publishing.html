@@ -1,0 +1,175 @@
+{% extends "project/course_detail.html" %}
+{% block content %}
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content mailbox-content">
+                        <div class="file-manager">
+                            <div class="space-25"></div>
+                            <h4>课程信息：</h4>
+                            <ul class="folder-list m-b-md" style="padding: 0">
+                                <li>
+                                    <a href="#"> <span class="glyphicon glyphicon-book"></span> &nbsp;&nbsp;课程名称： {{ course.cname }} </a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="glyphicon glyphicon-book"></span> &nbsp;&nbsp;班级： {{ course.classes }}</a>
+                                </li>
+                                <li>
+                                    <a href="#"> <span class="glyphicon glyphicon-user"></span> &nbsp;&nbsp;授课教师： {{ course.teacher.name }}</a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="glyphicon glyphicon-list-alt"></i>课程描述： {{ course.description }}</a>
+                                </li>
+                            </ul>
+                            {% if request.user.role.teacher == course.teacher %}
+                            <h2>课程作业</h2>
+                            <ul class="category-list" style="padding: 0">
+                                <li>
+                                    <a href="{% url 'project:homework_list_published' course.id %}"> <i class="fa fa-circle text-navy"></i> 已发布作业</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'project:homework_list_publishing' course.id %}"> <i class="fa fa-circle text-danger"></i> 待发布作业</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'project:homework_create' course.id %}"> <i class="fa fa-circle text-primary"></i> 添加作业</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'project:course_student' course.id %}"> <i class="fa fa-circle text-navy"></i> 所有学生</a>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            <div class="clearfix"></div>
+                            <div class="space-25"></div>
+                             <a class="btn btn-block btn-primary compose-mail" href="{% url 'project:course_update' course.id %}">更新课程</a>
+                            <a class="btn btn-block btn-primary compose-mail" href="{% url 'project:course_delete' course.id %}">退出课程</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 animated fadeInRight">
+                <div class="mail-box-header">
+                    <form method="get" action="#" class="pull-right mail-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm" name="search" placeholder="请输入搜索内容 ...">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    搜索
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <h2>待发布作业 </h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                    </div>
+                </div>
+                <div class="mail-box">
+                    <table class="table table-hover table-mail">
+                        <tbody>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="ibox-content">
+                                        <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+                                            <tbody align="center">
+{% if course %}
+{% if object_list %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>标题</th>
+            <th>所属课程</th>
+            <th>发布时间</th>
+            <th>浏览量</th>
+            <th>查看</th>
+            <th>格式</th>
+            <th>下载</th>
+            <th>发布</th>
+        </tr>
+    </thead>
+    <tbody>
+     {% for object in object_list %}
+        <tr>
+            <td></td>
+            <td>
+                {{ object.title }}
+            </td>
+            <td>
+                {{ object.course.cname }}
+            </td>
+            <td>
+                {{ object.modified | date:"Y-m-d" }}
+            </td>
+            <td>
+                {{ object.views }}
+            </td>
+            <td>
+                 {# <a href="{% url 'project:homework_detail' object.id %}"><span class="glyphicon glyphicon-eye-open"></span></a> #}
+                 <a href="{{ object.get_absolute_url }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+            </td>
+            <td>
+            {% if object.file %}
+                {{ object.get_format }}
+            {% endif %}
+            </td>
+            <td>
+            {% if object.file %}
+                <a href="{{ object.file.url }}"><span class="glyphicon glyphicon-download"></span></a>
+            {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'project:homework_publish' course.id object.id %}"><span class="glyphicon glyphicon-open"></span> </a>
+            </td>
+
+     {% endfor %}
+        </tr>
+    </tbody>
+</table>
+{% else %}
+<table class="table table-striped">
+    <tr>
+        <td>&nbsp;</td>
+        <td>对不起，没有作业。</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td><a href="{% url 'project:homework_create' course.id %}"><i class="glyphicon glyphicon-plus"></i>  添加作业</a></td>
+    </tr>
+</table>
+{% endif %}
+{# 注释: 下面代码一点也不要动 #}
+{% if is_paginated %}
+     <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+      <li class="page-item active"><span class="page-link"> {{ i }} <span class="sr-only">(current)</span></span></li>
+       {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+       {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+    {% endif %}
+    </ul>
+{% endif %}
+{% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
